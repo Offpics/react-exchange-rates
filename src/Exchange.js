@@ -7,6 +7,7 @@ class Exchange extends React.Component {
         super(props)
         this.currencies = ["CAD", "HUF", "CZK", "AUD", "JPY", "PLN", "USD", "EUR"]
         this.cached = {}
+        this.allowedInput = /^(\d+\.?(\d+)?)$/
         this.state = {
             base: "PLN",
             other: "EUR",
@@ -50,10 +51,12 @@ class Exchange extends React.Component {
     }
 
     handleChange = (event) => {
+        if (this.allowedInput.test(event.target.value) || event.target.value === "") {
         this.setState({
             value: event.target.value,
             converted: event.target.value !== "" ? "Calculating..." : ""
         }, this.recalculate)
+    }
     }
 
     recalculate = () => {
